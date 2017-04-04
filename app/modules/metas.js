@@ -1,7 +1,7 @@
 var db = require('../config/db')
 
-exports.getMetas = function(callback){
-	db.get().query('SELECT * from metas;', function (err, rows) {
+exports.getMetas = function(id_usuario, callback){
+	db.get().query(`SELECT * from metas where id_usuario = '${id_usuario}';`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -17,8 +17,8 @@ exports.getMetas = function(callback){
 	})
 }
 
-exports.getMeta = function(id, callback){
-	db.get().query(`SELECT * from metas WHERE id=${id};`, function (err, rows) {
+exports.getMeta = function(id, id_usuario, callback){
+	db.get().query(`SELECT * from metas WHERE id=${id} AND id_usuario='${id_usuario}';`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -34,8 +34,8 @@ exports.getMeta = function(id, callback){
 	})
 }
 
-exports.postMetas = function(req, callback){
-	db.get().query(`INSERT INTO metas (nombre, descripcion) VALUES ('${req.nombre}', '${req.descripcion}');`, function (err, rows) {
+exports.postMetas = function(req,id_usuario, callback){
+	db.get().query(`INSERT INTO metas (nombre, descripcion, id_usuario) VALUES ('${req.nombre}', '${req.descripcion}', '${id_usuario}');`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -44,11 +44,10 @@ exports.postMetas = function(req, callback){
 	})
 }
 
-exports.putMetas = function(id, req, callback){
-    console.log(id, req);
+exports.putMetas = function(id, req,id_usuario, callback){
 	db.get().query(`UPDATE metas
         SET nombre='${req.nombre}', descripcion='${req.descripcion}'         
-        WHERE id=${id};`, function (err, rows) {
+        WHERE id=${id} AND id_usuario='${id_usuario}';`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -57,7 +56,7 @@ exports.putMetas = function(id, req, callback){
 	})
 }
 
-exports.deleteMetas = function(req, callback){
+exports.deleteMetas = function(req,id_usuario, callback){
 	db.get().query(`DELETE FROM metas WHERE id='${req.id}';`, function (err, rows) {
 		var response = {status:''};
 		if (err){
