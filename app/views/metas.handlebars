@@ -1,18 +1,16 @@
-<h1>Lista de coches</h1>
+<h1>Metas</h1>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Modelo</th>
-            <th>Año</th>
+            <th>Descripción</th>            
         </tr>
     </thead>
     <tbody>
-        {{#each coches}}
+        {{#each metas}}
         <tr>
             <td>{{nombre}}</td>
-            <td>{{modelo}}</td>
-            <td>{{anio}}</td>
+            <td>{{descripcion}}</td>            
             {{#if session}}
             <td>
                 <button type="button" class="btn btn-primary" aria-label="Left Align" onclick="editP({{id}})">
@@ -29,7 +27,7 @@
     </tbody>
 </table>
 <div class="col-md-4">
-    <a href="/coches/agregarCoche" class="btn btn-default">Agregar coche</a>
+    <a href="/metas/agregarMeta" class="btn btn-default">Agregar meta</a>
 </div>
 <script>
 function deleteP(evt, id){
@@ -37,12 +35,12 @@ function deleteP(evt, id){
     var data = { id: id }
     $.ajax({
         type: 'DELETE',
-        url: 'http://localhost:3000/coches',
+        url: 'http://localhost:3000/metas',
         data: data,
         dataType: 'json',
         success: function(data){
-            window.location.href = "/coches";
-            alert("Coche eliminada correctamente");
+            window.location.href = "/metas";
+            alert("Meta eliminada correctamente");
         },
         error: function(){
             console.log("ERROR");
@@ -50,6 +48,6 @@ function deleteP(evt, id){
     });
 }
 function editP(id){
-    window.location.href = `/coches/editarCoche/${id}`;
+    window.location.href = `/metas/editarMeta/${id}`;
 }
 </script>

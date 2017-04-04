@@ -1,7 +1,6 @@
 <form name="forma" method="post">
     Nombre: <input type="text" id="nombre" /><br />
-    Modelo: <input type="text" id="modelo" /><br />
-    Año: <input type="number" id="anio" /><br />
+    Descripción: <input type="text" id="descripcion" /><br />    
     <input type="submit" onclick="sending(event,1)" /><br />
 </form>
 
@@ -12,17 +11,16 @@ function sending(evt, numero){
 
     var data = {
         nombre: $("#nombre").val(),
-        modelo: $("#modelo").val(),
-        anio: $("#anio").val(),
+        descripcion: $("#descripcion").val(),        
     }
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:3000/coches/agregarCoche',
+        url: 'http://localhost:3000/metas/agregarMeta',
         data: data,
         dataType: 'json',
         success: function(data){
-            window.location.href = "/coches";
-            alert("Coche agregada correctamente");
+            window.location.href = "/metas";
+            alert("Meta agregada correctamente");
         },
         error: function(){
             console.log("ERROR");

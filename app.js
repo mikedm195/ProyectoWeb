@@ -20,8 +20,7 @@ db.connect(function(err) {
 })
 
 var routes = require('./app/routes/index');
-var aviones = require('./app/routes/aviones');
-var coches = require('./app/routes/coches');
+var metas = require('./app/routes/metas');
 var users = require('./app/routes/users');
 
 var app = express();
@@ -47,8 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/aviones', aviones);
-app.use('/coches', coches);
+app.use('/metas', metas);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

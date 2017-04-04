@@ -5,6 +5,13 @@ create table usuarios(
 	PRIMARY KEY (id)
 );
 
+create table metas(
+	id INT NOT NULL AUTO_INCREMENT,	
+	nombre varchar(50) not null,
+ 	descripcion varchar(50), 	
+	PRIMARY KEY (id)
+);
+
 create table coches(
 	id INT NOT NULL AUTO_INCREMENT,
 	nombre varchar(50) not null,

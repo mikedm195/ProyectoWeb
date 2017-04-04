@@ -1,7 +1,7 @@
 var db = require('../config/db')
 
-exports.getCoches = function(callback){
-	db.get().query('SELECT * from coches;', function (err, rows) {
+exports.getMetas = function(callback){
+	db.get().query('SELECT * from metas;', function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -17,8 +17,8 @@ exports.getCoches = function(callback){
 	})
 }
 
-exports.getCoche = function(id, callback){
-	db.get().query(`SELECT * from coches WHERE id=${id};`, function (err, rows) {
+exports.getMeta = function(id, callback){
+	db.get().query(`SELECT * from metas WHERE id=${id};`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -34,8 +34,8 @@ exports.getCoche = function(id, callback){
 	})
 }
 
-exports.postCoches = function(req, callback){
-	db.get().query(`INSERT INTO coches (nombre, modelo, anio) VALUES ('${req.nombre}', '${req.modelo}', ${req.anio});`, function (err, rows) {
+exports.postMetas = function(req, callback){
+	db.get().query(`INSERT INTO metas (nombre, descripcion) VALUES ('${req.nombre}', '${req.descripcion}');`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
@@ -44,11 +44,10 @@ exports.postCoches = function(req, callback){
 	})
 }
 
-exports.putCoches = function(id, req, callback){
+exports.putMetas = function(id, req, callback){
     console.log(id, req);
-	db.get().query(`UPDATE coches
-        SET nombre='${req.nombre}', modelo='${req.modelo}',
-        anio=${req.anio}
+	db.get().query(`UPDATE metas
+        SET nombre='${req.nombre}', descripcion='${req.descripcion}'         
         WHERE id=${id};`, function (err, rows) {
 		var response = {status:''};
 		if (err){
@@ -58,8 +57,8 @@ exports.putCoches = function(id, req, callback){
 	})
 }
 
-exports.deleteCoches = function(req, callback){
-	db.get().query(`DELETE FROM coches WHERE id='${req.id}';`, function (err, rows) {
+exports.deleteMetas = function(req, callback){
+	db.get().query(`DELETE FROM metas WHERE id='${req.id}';`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);

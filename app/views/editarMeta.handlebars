@@ -1,0 +1,30 @@
+<form name="forma" method="post">
+    Nombre: <input type="text" id="nombre" value="{{metas.nombre}}" /><br />
+    Descripción: <input type="text" id="descripcion" value="{{metas.descripcion}}" /><br />    
+    <input type="submit" onclick="sending(event,{{metas.id}})" /><br />
+</form>
+
+<script>
+
+function sending(evt, id){
+    evt.preventDefault();
+
+    var data = {
+        nombre: $("#nombre").val(),
+        descripcion: $("#descripcion").val(),        
+    }
+    $.ajax({
+        type: 'PUT',
+        url: `http://localhost:3000/metas/editarMeta/${id}`,
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/metas";
+            alert("Meta editada correctamente");
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+</script>
