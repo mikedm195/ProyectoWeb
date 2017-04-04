@@ -1,0 +1,32 @@
+<form name="forma" method="post">
+    Nombre: <input type="text" id="nombre" /><br />
+    Modelo: <input type="text" id="modelo" /><br />
+    Año: <input type="number" id="anio" /><br />
+    <input type="submit" onclick="sending(event,1)" /><br />
+</form>
+
+<script>
+
+function sending(evt, numero){
+    evt.preventDefault();
+
+    var data = {
+        nombre: $("#nombre").val(),
+        modelo: $("#modelo").val(),
+        anio: $("#anio").val(),
+    }
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/coches/agregarCoche',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/coches";
+            alert("Coche agregada correctamente");
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+</script>

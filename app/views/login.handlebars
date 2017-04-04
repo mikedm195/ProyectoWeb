@@ -1,0 +1,39 @@
+<form method="post">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label for="email">Usuario:</label>
+            <input type="text" class="form-control" id="user">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd">
+        </div>
+        <p>{{mensaje}}</p>
+        <button type="submit" class="btn btn-default" onclick="sending(event)">Submit</button>
+        <a href="/users/agregarUsuario">Cree una cuenta</a>
+    </div>
+</form>
+
+<script>
+
+function sending(evt){
+    evt.preventDefault();    ;
+    var data = {
+        user: $("#user").val(),
+        password: $("#pwd").val(),
+    }
+    console.log(data);
+    $.ajax({
+        type: 'POST',
+        url: `http://localhost:3000/users/verifyLogin`,
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/";
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+</script>

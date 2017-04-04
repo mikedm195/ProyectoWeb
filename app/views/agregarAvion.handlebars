@@ -1,0 +1,32 @@
+<form name="forma" method="post">
+    Nombre: <input type="text" id="nombre" /><br />
+    Marca: <input type="text" id="marca" /><br />
+    Motor: <input type="text" id="motor" /><br />
+    <input type="submit" onclick="sending(event,1)" /><br />
+</form>
+
+<script>
+
+function sending(evt, numero){
+    evt.preventDefault();
+
+    var data = {
+        nombre: $("#nombre").val(),
+        marca: $("#marca").val(),
+        motor: $("#motor").val(),
+    }
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/aviones/agregarAvion',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/aviones";
+            alert("Avion agregada correctamente");
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+</script>

@@ -1,0 +1,55 @@
+<h1>Lista de Aviones</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Motor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each aviones}}
+        <tr>
+            <td>{{nombre}}</td>
+            <td>{{marca}}</td>
+            <td>{{motor}}</td>
+            {{#if session}}
+            <td>
+                <button type="button" class="btn btn-primary" aria-label="Left Align" onclick="editP({{id}})">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-danger" aria-label="Left Align" onclick="deleteP(event,{{id}})">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+                <div class="clearfix"></div>
+            </td>
+            {{/if}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="col-md-4">
+    <a href="/aviones/agregarAvion" class="btn btn-default">Agregar Avion</a>
+</div>
+<script>
+function deleteP(evt, id){
+    evt.preventDefault();
+    var data = { id: id }
+    $.ajax({
+        type: 'DELETE',
+        url: 'http://localhost:3000/aviones',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/aviones";
+            alert("Avion eliminada correctamente");
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+function editP(id){
+    window.location.href = `/aviones/editarAvion/${id}`;
+}
+</script>

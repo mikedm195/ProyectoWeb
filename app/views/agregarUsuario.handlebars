@@ -1,0 +1,30 @@
+<form name="forma" method="post">
+    User: <input type="text" id="user" /><br />
+    password: <input type="text" id="password" /><br />
+    <input type="submit" onclick="sending(event)" /><br />
+</form>
+
+<script>
+
+function sending(evt){
+    evt.preventDefault();
+
+    var data = {
+        user: $("#user").val(),
+        password: $("#password").val(),
+    }
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/users/agregarUsuario',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            window.location.href = "/";
+            alert("Usuario agregada correctamente");
+        },
+        error: function(){
+            console.log("ERROR");
+        }
+    });
+}
+</script>
