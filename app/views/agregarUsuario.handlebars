@@ -1,6 +1,6 @@
 <form name="forma" method="post">
-    User: <input type="text" id="user" /><br /> password: <input type="text" id="password" /><br />
-    <p id="#password-strength"></p>    
+    User: <input type="text" id="user" /><br /> password: <input type="password" id="password" /><br />
+    <p id="#password-strength"></p>
     <input type="submit" id="submit"/><br />
 </form>
 
@@ -50,7 +50,7 @@
             }
         });
     });
-    function sending() {        
+    function sending() {
         var data = {
             user: $("#user").val(),
             password: $("#password").val(),
