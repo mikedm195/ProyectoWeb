@@ -1,30 +1,73 @@
 <form name="forma" method="post">
-    User: <input type="text" id="user" /><br />
-    password: <input type="text" id="password" /><br />
-    <input type="submit" onclick="sending(event)" /><br />
+    User: <input type="text" id="user" /><br /> password: <input type="text" id="password" /><br />
+    <p id="#password-strength"></p>    
+    <input type="submit" id="submit"/><br />
 </form>
 
+<script src="/javascripts/bloomfilter.js"></script>
+
 <script>
-
-function sending(evt){
-    evt.preventDefault();
-
-    var data = {
-        user: $("#user").val(),
-        password: $("#password").val(),
+    function strength_check(password) {
+        // Check for passwords that atleast contain a number and an alphabet,
+        // or if alphabets, then atleast 12 characters long
+        var regex = new RegExp('((?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()_+ ]{8,12})|([A-Za-z0-9!@#$%^&*()_+ ]{12,})');
+        return regex.test(password);
     }
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:3000/users/agregarUsuario',
-        data: data,
-        dataType: 'json',
-        success: function(data){
-            window.location.href = "/";
-            alert("Usuario agregada correctamente");
-        },
-        error: function(){
-            console.log("ERROR");
-        }
+    $(document).ready(function () {
+        var bloom;
+        var bool = true;
+        var strong = false;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: '/javascripts/bloomdata_short_pwd.js',
+            error: function (jqxhr, status, err) { alert(status + ' ERROR ' + err); }
+        }).done(function (res) {
+            bloom = new BloomFilter(res, 8);
+
+        });
+        $('#submit').click(function (e) {
+            var password = $('#password').val();
+            e.preventDefault();
+            strong = strength_check(password.toString());
+            if (strong) {
+                // Only if the password has a chance of being strong do we check with the bloom filter
+                // else, simply reject the password. This helps us to not store all-alpha or all-numeric passwords
+                // on the bloom filter, reducing space.
+                bool = bloom.test(password);
+            } else {
+                bool = true;
+                alert('password aint strong!');
+                $("#password-strength").text('password aint strong!');
+            }
+            if (!bool) {
+                alert("Your password is reasonably strong");
+                $("#password-strength").text("Your password is reasonably strong");
+                sending();
+            } else {
+                alert("Your password is a commonly used password, please use a stronger password");
+                $("#password-strength").text("Your password is a commonly used password, please use a stronger password");
+            }
+        });
     });
-}
+    function sending() {        
+        var data = {
+            user: $("#user").val(),
+            password: $("#password").val(),
+        }
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/users/agregarUsuario',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                window.location.href = "/";
+                alert("Usuario agregada correctamente");
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+    }
+
 </script>
