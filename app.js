@@ -14,7 +14,7 @@ var handlebars = require('express-handlebars').create({
 
 db.connect(function(err) {
   if (err) {
-    console.log('Unable to connect to MySQL.')
+    console.error('Unable to connect to MySQL.')
     process.exit(1)
   }
 })

@@ -10,8 +10,10 @@ create table metas(
 	id_usuario varchar(50) NOT NULL,
 	nombre varchar(50) not null,
  	descripcion varchar(50), 	
+	status char NOT NULL DEFAULT '0',
 	PRIMARY KEY (id)
 );
+
 
 create table coches(
 	id INT NOT NULL AUTO_INCREMENT,

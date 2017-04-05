@@ -56,6 +56,18 @@ exports.putMetas = function(id, req,id_usuario, callback){
 	})
 }
 
+exports.putStatus = function(id, status, callback){
+	db.get().query(`UPDATE metas
+        SET status='${status}' 
+        WHERE id=${id};`, function (err, rows) {
+		var response = {status:''};
+		if (err){
+	    	return callback(err);
+	  	}
+		return callback(null,response);
+	})
+}
+
 exports.deleteMetas = function(req,id_usuario, callback){
 	db.get().query(`DELETE FROM metas WHERE id='${req.id}';`, function (err, rows) {
 		var response = {status:''};

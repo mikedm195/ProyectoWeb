@@ -7,18 +7,18 @@
 			metas.getMetas(req.session.name, 
 				function(err,metas){
 					if (err){
-						console.log(err);
+						console.error(err);
 					}
 					else if(metas.status.localeCompare('ERROR') == 0){
-						console.log("Error");
+						console.error("Error");
 					}
 					else{
 						var session = false;
 						if(req.session.name) session = true;
 						for (var i = 0; i < metas.data.length; i++) {
-							metas.data[i].session = session;
-						}
-						console.log(metas.data);
+							metas.data[i].session = session;							
+							metas.data[i].status = (metas.data[i].status == "0") ? false : true;							
+						}						
 						res.render('metas',{metas:metas.data});
 					}
 				}
@@ -27,17 +27,15 @@
 
 	module.exports.editarMeta = function(req, res){
 		metas.getMeta(req.params.id, req.session.name,
-			function(err,metas){
-				console.log(metas);
+			function(err,metas){				
 				if (err){
-					console.log(err);
+					console.error(err);
 				}
 				else if(metas.status.localeCompare('ERROR') == 0){
-					console.log("Error");
+					console.error("Error");
 					res.render('/');
 				}
-				else{
-					console.log(metas.data);
+				else{					
 					res.render('editarMeta',{metas:metas.data[0]});
 					// res.json(metas);
 				}
@@ -57,7 +55,7 @@
 		metas.postMetas(req.body,req.session.name, 
 			function(err,metas){
 				if (err){
-					console.log(err);
+					console.error(err);
 				}else{
 					res.json(metas);
 				}
@@ -69,7 +67,21 @@
 		metas.putMetas(req.params.id, req.body, req.session.name,
 			function(err,metas){
 				if (err){
-					console.log(err);
+					console.error(err);
+				}else{
+					res.json(metas);
+				}
+			}
+		);
+	};
+
+	module.exports.editarStatus = function(req, res){	
+		console.log(req.body.status);
+		// var newStatus = (req.body.status) ? '0' : '1';		
+		metas.putStatus(req.params.id, req.body.status,
+			function(err,metas){
+				if (err){
+					console.error(err);
 				}else{
 					res.json(metas);
 				}
@@ -81,7 +93,7 @@
 		metas.deleteMetas(req.body, req.session.id,
 			function(err,metas){
 				if (err){
-					console.log(err);
+					console.error(err);
 				}else{
 					res.json(metas);
 				}
