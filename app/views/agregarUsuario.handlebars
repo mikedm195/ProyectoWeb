@@ -1,6 +1,7 @@
 <form name="forma" method="post">
     User: <input type="text" id="user" /><br /> password: <input type="password" id="password" /><br />
-    <p id="#password-strength"></p>
+      <p>Porfavor seleccione una contraseña de al menos 8 caracteres con al menos una letra y un numero</p>
+    <h4 id="password-strength" style="color:red;"></h4>
     <input type="submit" id="submit"/><br />
 </form>
 
@@ -37,16 +38,16 @@
                 bool = bloom.test(password);
             } else {
                 bool = true;
-                alert('password aint strong!');
-                $("#password-strength").text('password aint strong!');
+                //alert('La contraseña no cumple con los estándares de seguridad.');
+                $("#password-strength").text('La contraseña debe de contener 8 caracteres y al menos un número y una letra.');
             }
             if (!bool) {
-                alert("Your password is reasonably strong");
-                $("#password-strength").text("Your password is reasonably strong");
+                //alert("La contraseña es aceptada");
+                //$("#password-strength").text("La contraseña es aceptada");
                 sending();
             } else {
-                alert("Your password is a commonly used password, please use a stronger password");
-                $("#password-strength").text("Your password is a commonly used password, please use a stronger password");
+                //alert("La contraseña introducida es considerada débil");
+                $("#password-strength").text("La contraseña introducida es considerada débil por nuestro sistema.");
             }
         });
     });
