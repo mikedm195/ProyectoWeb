@@ -1,7 +1,7 @@
 <h1>Metas</h1>
-<ul class="list-group">
+<ul class="list-group" ng-controller="metasController">
     {{#each metas}}
-    <li class="list-group-item" onclick="hola(event,{{id}},{{status}})">
+    <li class="list-group-item" ng-click="hola({{id}},{{status}})">
         <div>
             {{#if status }}
                 <strong><strike>{{nombre}}</strike></strong><br/> {{descripcion}}
@@ -11,57 +11,19 @@
             <br/>
         </div>
         <div class="pull-right">
-            <button type="button" class="btn btn-primary" aria-label="Left Align" onclick="editP({{id}})">
+            <button type="button" class="btn btn-primary" aria-label="Left Align" ng-click="editP({{id}})">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </button>
-            <button type="button" class="btn btn-danger" aria-label="Left Align" onclick="deleteP(event,{{id}})">
+            <button type="button" class="btn btn-danger" aria-label="Left Align" ng-click="deleteP({{id}})">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
         </div>
         <div class="clearfix"></div>
     </li>
     {{/each}}
+    <script src="/javascripts/metasController.js"></script>
 </ul>
 <div class="col-md-4">
     <a href="/metas/agregarMeta" class="btn btn-default">Agregar meta</a>
 </div>
-<script>    
-    function deleteP(evt, id) {
-        evt.preventDefault();
-        var data = { id: id }
-        $.ajax({
-            type: 'DELETE',
-            url: 'http://localhost:3000/metas',
-            data: data,
-            dataType: 'json',
-            success: function (data) {
-                window.location.href = "/metas";
-                alert("Meta eliminada correctamente");
-            },
-            error: function () {
-                console.error("ERROR");
-            }
-        });
-    }
-    function editP(id) {
-        window.location.href = `/metas/editarMeta/${id}`;
-    }
-    function hola(event,id,status){
-        event.preventDefault();
-        var newStatus = status ? '0' : '1';
-        var data = { status: newStatus }  
-        var url =`http://localhost:3000/metas/editarStatus/${id}`         
-        $.ajax({
-            type: 'PUT',
-            url: url,
-            data: data,
-            dataType: 'json',
-            success: function(data){
-                window.location.href = "/metas";                
-            },
-            error: function(){
-                console.error("ERROR");
-            }
-        })        
-    }
-</script>
+
