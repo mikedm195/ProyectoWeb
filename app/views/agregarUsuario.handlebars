@@ -1,6 +1,8 @@
+
 <form name="forma" method="post" class="col-md-6 col-md-offset-3">
     User: <input type="text" id="user" class="form-control" /><br /> Password: <input class="form-control" type="password" id="password" /><br />
       <p>Porfavor seleccione una contraseña de al menos 8 caracteres con al menos una letra y un numero</p>
+      Email: <input type="text" id="email" class="form-control" required/><br />
     <h4 id="password-strength" style="color:red;"></h4>
     <input type="submit"  class="btn btn-default" id="submit"/><br />
 </form>
@@ -55,6 +57,7 @@
         var data = {
             user: $("#user").val(),
             password: $("#password").val(),
+            email: $("#email").val(),
         }
         $.ajax({
             type: 'POST',

@@ -1,6 +1,7 @@
 var users = require('../modules/users')
 var fs = require('fs');
 var bf = require('../../public/javascripts/bloomfilter');
+var mail = require('../modules/mail');
 
 module.exports.index = function (req, res) {
 	if (req.session) {
@@ -85,6 +86,10 @@ module.exports.post = function (req, res) {
 				console.log(err);
 			} else {
 				res.json(usuarios);
+				if(req.body.email)
+					mail.sendWelcome(req.body.email);
+				else
+					console.log("Email cannot be sent");
 			}
 		}
 	);

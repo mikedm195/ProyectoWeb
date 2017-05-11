@@ -36,12 +36,13 @@ exports.getUser = function(user, password, callback){
 }
 
 exports.postUsers = function(req, callback){
-	db.get().query(`INSERT INTO usuarios (user, password) VALUES ('${req.user}', '${req.password}');`, function (err, rows) {
+	db.get().query(`INSERT INTO usuarios (user, password,email) VALUES ('${req.user}', '${req.password}', '${req.email}');`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
 	  	}
 		return callback(null,response);
+
 	})
 }
 
