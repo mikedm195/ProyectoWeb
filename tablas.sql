@@ -2,6 +2,9 @@ create table usuarios(
 	id INT NOT NULL AUTO_INCREMENT,
 	user varchar(50) not null UNIQUE,
  	password varchar(50) not null,
+	email varchar(50) not null,
+	image varchar(100) not null,
+	role tinyint not null,
 	PRIMARY KEY (id)
 );
 
