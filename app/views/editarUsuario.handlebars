@@ -1,7 +1,7 @@
-<form name="forma" method="post">
-    User: <input type="text" id="user" value="{{usuarios.user}}" /><br />
-    Password: <input type="text" id="password" value="{{usuarios.password}}" /><br />
-    <input type="submit" onclick="sending(event,{{usuarios.id}})" /><br />
+<form name="forma" class="col-md-6 col-md-offset-3" method="post">
+    User: <input class="form-control"  type="text" id="user" value="{{usuarios.user}}" /><br />
+    Password: <input class="form-control" type="text" id="password" value="{{usuarios.password}}" /><br />
+    <input class="form-control" type="submit" onclick="sending(event,{{usuarios.id}})" /><br />
 </form>
 
 <script>

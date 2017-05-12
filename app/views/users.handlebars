@@ -1,5 +1,18 @@
-Users
-<ul>
-	<li>{{user.data.id}}</li>
-	<li>{{user.data.name}}</li>
-</ul>
+
+<div class="col-md-6 col-md-offset-3">
+<h1>Users</h1>
+<table class="table table-stripped table-responsive">
+	<th>Nombre</th>
+	<th>Email</th>
+	<th>Imagen</th>
+	<th>Rol</th>
+	{{#each usuarios.user}}
+	<tr>
+		<td>{{user}}</td>
+		<td>{{email}}</td>
+		<td><img src="/uploads/{{image}}" width="210px" height="150px"/></td>
+		<td>{{role}}</td>
+	</tr>
+	{{/each}}
+</table>
+</div>

@@ -17,6 +17,24 @@ exports.getMetas = function(id_usuario, callback){
 	})
 }
 
+exports.getAllMetas = function(callback){
+	db.get().query(`SELECT * from metas;`, function (err, rows) {
+		var response = {status:''};
+		if (err){
+	    	return callback(err);
+	  	}
+	  	if ( rows ){
+	  		response.status = "SUCCESS";
+		    response.data = rows;
+		}
+		else{
+			response.status = "ERROR";
+		}
+		return callback(null,response);
+	})
+}
+
+
 exports.getMeta = function(id, id_usuario, callback){
 	db.get().query(`SELECT * from metas WHERE id=${id} AND id_usuario='${id_usuario}';`, function (err, rows) {
 		var response = {status:''};

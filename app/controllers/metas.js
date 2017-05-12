@@ -3,7 +3,27 @@
 	module.exports.index = function(req, res){
 		if(!req.session.name)
 			res.render('login');
-		else
+		else{
+			if(req.session.role == 1){//Admin User
+				metas.getAllMetas(function(err,metas){
+					if (err){
+						console.error(err);
+					}
+					else if(metas.status.localeCompare('ERROR') == 0){
+						console.error("Error");
+					}
+					else{
+						var session = false;
+						if(req.session.name) session = true;
+						for (var i = 0; i < metas.data.length; i++) {
+							metas.data[i].session = session;							
+							metas.data[i].status = (metas.data[i].status == "0") ? false : true;							
+						}						
+						res.render('metas',{metas:metas.data});
+					}
+				});
+			}
+			else
 			metas.getMetas(req.session.name, 
 				function(err,metas){
 					if (err){
@@ -23,6 +43,7 @@
 					}
 				}
 			);
+		}
 	};
 
 	module.exports.editarMeta = function(req, res){

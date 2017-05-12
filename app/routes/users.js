@@ -10,6 +10,7 @@ router.get('/editarUsuario', controller.editarUsuario);
 router.get('/agregarUsuario', controller.agregarUsuario);
 router.post('/agregarUsuario', controller.post);
 router.put('/editarUsuario', controller.put);
+router.get('/usuarios',controller.getAllUsers);
 router.delete('/', controller.delete);
 
 module.exports = router;

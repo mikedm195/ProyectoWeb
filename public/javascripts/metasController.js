@@ -18,6 +18,7 @@ function metasController($scope, $http) {
         });        
     }    
     $scope.editP = function(id) {
+        console.log("ID Meta "+ id);
         window.location.href = `/metas/editarMeta/${id}`;
     }
     $scope.hola = function(id,status){                

@@ -5,10 +5,11 @@
       Email: <input type="text" id="email" class="form-control" required/><br />
       Profile Pic: <input type="file" id="image" name="image" class="form-control" /><br />
     <h4 id="password-strength" style="color:red;"></h4>
-    <select id="role">
+    <select class="form-control" name="role" id="role">
         <option>Admin User</option>
         <option>Standard User</option>
     </select>
+    <br /><br />
     <input type="submit"  class="btn btn-default" id="submit"/><br />
 </form>
 
@@ -64,6 +65,7 @@
         dataForm.append('password',$("#password").val());
         dataForm.append('email',$("#email").val());
         dataForm.append('image',$('input[type=file]')[0].files[0]);
+        dataForm.append('role',$("#role").val());
 
         for (var pair of dataForm.entries()) {
     console.log('Pairs: '+pair[0]+ ', ' + pair[1]); 
@@ -72,6 +74,7 @@
             user: $("#user").val(),
             password: $("#password").val(),
             email: $("#email").val(),
+            role: $("#role").val(),
             image: $("#image"),
         }
         $.ajax({

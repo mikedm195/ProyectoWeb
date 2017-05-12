@@ -4,6 +4,7 @@ var bf = require('../../public/javascripts/bloomfilter');
 var mail = require('../modules/mail');
 const util = require('util');
 
+
 module.exports.index = function (req, res) {
 	if (req.session) {
 		req.session = null;
@@ -13,6 +14,29 @@ module.exports.index = function (req, res) {
 	}
 };
 
+module.exports.getAllUsers = function(req,res){
+
+	if(req.session.role == 1){
+		console.log("Administrador");
+		users.getAllUsers(function (err, usuarios) {
+			if (err) {
+				console.log(err);
+			}
+			else if (usuarios.status.localeCompare('ERROR') == 0) {
+				console.log("Error");
+			}
+			else {
+				console.log("Usuarios "+JSON.stringify(usuarios));
+				res.render('users', {usuarios});
+				// res.json(series);
+			}
+		});
+	}
+	else{
+		console.log("Intruso" + req.session.role);
+	}
+
+}
 module.exports.login = function (req, res) {
 
 	//verify
@@ -30,6 +54,7 @@ module.exports.login = function (req, res) {
 				req.session = {
 					name: users.user,
 					image: users.image,
+					role: users.role,
 					keys: ['key1', 'key2']
 				}
 				res.json(users);
@@ -81,6 +106,15 @@ module.exports.post = function (req, res) {
 		json = JSON.stringify(array);
 		fs.writeFile('../../public/javascripts/bloomdata_short_pwd.js', json);
 	});
+
+	//Role
+	if(req.body.role == "Admin User")
+		admin = 1;
+	else
+		admin = 0;
+
+
+	//File Upload
 	if(req.files){
 		global.upload = false;
 		let imageFile = req.files.image;
@@ -92,7 +126,7 @@ module.exports.post = function (req, res) {
     		else{
     			console.log('File moved successfully');
     			filename = req.files.image.name;
-    			users.postUsers(filename,req.body,
+    			users.postUsers(admin,filename,req.body,
 					function (err, usuarios,filename) {
 						if (err) {
 							console.log(err);
@@ -101,7 +135,7 @@ module.exports.post = function (req, res) {
 							res.json(usuarios);
 							if(req.body.email){
 								console.log('Sending email...');
-								mail.sendWelcome(req.body.email);
+								//mail.sendWelcome(req.body.email);
 							}
 							else
 								console.log("Email cannot be sent");
