@@ -2,6 +2,7 @@ var users = require('../modules/users')
 var fs = require('fs');
 var bf = require('../../public/javascripts/bloomfilter');
 var mail = require('../modules/mail');
+const util = require('util');
 
 module.exports.index = function (req, res) {
 	if (req.session) {
@@ -28,13 +29,14 @@ module.exports.login = function (req, res) {
 			else {
 				req.session = {
 					name: users.user,
+					image: users.image,
 					keys: ['key1', 'key2']
 				}
 				res.json(users);
 				//res.send(JSON.stringify(users));
 			}
 		}
-	);
+		);
 };
 
 module.exports.editarUsuario = function (req, res) {
@@ -52,7 +54,7 @@ module.exports.editarUsuario = function (req, res) {
 				// res.json(series);
 			}
 		}
-	);
+		);
 	// res.render('index', { title: 'Express' });
 };
 
@@ -64,7 +66,8 @@ module.exports.post = function (req, res) {
 	var bloom = new bf.BloomFilter(
 		10 * 54000, // number of bits to allocate.
 		8        // number of hash functions.
-	);
+		);
+	
 	console.log("hola");
 	fs.readFile('../../public/javascripts/human-ans-shorter.txt', 'utf8', function (err, data) {
 		if (err) {
@@ -75,24 +78,43 @@ module.exports.post = function (req, res) {
 			bloom.add(pwd);
 		});
 		var array = [].slice.call(bloom.buckets),
-			json = JSON.stringify(array);
+		json = JSON.stringify(array);
 		fs.writeFile('../../public/javascripts/bloomdata_short_pwd.js', json);
 	});
-
-	//   res.json("alls well that ends well :P");
-	users.postUsers(req.body,
-		function (err, usuarios) {
-			if (err) {
-				console.log(err);
-			} else {
-				res.json(usuarios);
-				if(req.body.email)
-					mail.sendWelcome(req.body.email);
-				else
-					console.log("Email cannot be sent");
-			}
-		}
-	);
+	if(req.files){
+		global.upload = false;
+		let imageFile = req.files.image;
+		console.log("Ruta "+__dirname+"/../../public/uploads/");
+		imageFile.mv(__dirname+"/../../public/uploads/"+imageFile.name, function(err) {
+    		if (err)
+    			console.log('Cannot move file: '+err);
+    	
+    		else{
+    			console.log('File moved successfully');
+    			filename = req.files.image.name;
+    			users.postUsers(filename,req.body,
+					function (err, usuarios,filename) {
+						if (err) {
+							console.log(err);
+							console.log('Cannot add user');
+						} else {
+							res.json(usuarios);
+							if(req.body.email)
+								console.log('Sending email...');
+								mail.sendWelcome(req.body.email);
+							else
+								console.log("Email cannot be sent");
+						}
+					}
+				);
+    		
+    		}
+    			
+  		});
+		
+	}
+	else
+		console.log("No files uploaded");
 };
 
 module.exports.put = function (req, res) {
@@ -104,7 +126,7 @@ module.exports.put = function (req, res) {
 				res.json(usuarios);
 			}
 		}
-	);
+		);
 };
 
 module.exports.delete = function (req, res) {
@@ -116,5 +138,5 @@ module.exports.delete = function (req, res) {
 				res.json(usuarios);
 			}
 		}
-	);
+		);
 };

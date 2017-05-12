@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./app/config/db')
 var cookieSession = require('cookie-session')
+var uploadFile = require('express-fileupload')
 
 var handlebars = require('express-handlebars').create({
        defaultLayout:'main',
@@ -39,6 +40,7 @@ app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(uploadFile());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

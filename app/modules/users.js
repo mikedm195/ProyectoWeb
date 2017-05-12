@@ -27,6 +27,7 @@ exports.getUser = function(user, password, callback){
 	  	if ( rows && rows.length > 0){
 	  		response.status = "SUCCESS";
 			response.user = rows[0].user;
+			response.image = rows[0].image;
 		}
 		else{
 			response.status = "ERROR";
@@ -35,8 +36,8 @@ exports.getUser = function(user, password, callback){
 	})
 }
 
-exports.postUsers = function(req, callback){
-	db.get().query(`INSERT INTO usuarios (user, password,email) VALUES ('${req.user}', '${req.password}', '${req.email}');`, function (err, rows) {
+exports.postUsers = function(filename,req, callback){
+	db.get().query(`INSERT INTO usuarios (user, password,email,image) VALUES ('${req.user}', '${req.password}', '${req.email}','${filename}');`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
