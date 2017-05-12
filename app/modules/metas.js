@@ -36,7 +36,7 @@ exports.getAllMetas = function(callback){
 
 
 exports.getMeta = function(id, id_usuario, callback){
-	db.get().query(`SELECT * from metas WHERE id=${id} AND id_usuario='${id_usuario}';`, function (err, rows) {
+	db.get().query(`SELECT * from metas WHERE id=${id};`, function (err, rows) {
 		var response = {status:''};
 		if (err){
 	    	return callback(err);
