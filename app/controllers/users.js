@@ -99,9 +99,10 @@ module.exports.post = function (req, res) {
 							console.log('Cannot add user');
 						} else {
 							res.json(usuarios);
-							if(req.body.email)
+							if(req.body.email){
 								console.log('Sending email...');
 								mail.sendWelcome(req.body.email);
+							}
 							else
 								console.log("Email cannot be sent");
 						}
